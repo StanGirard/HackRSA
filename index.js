@@ -30,7 +30,7 @@ con.connect((err) => {
         console.log("Table created");
     });
 });
-
+var start = new Date()
 const streamData = fs.createReadStream('top10milliondomains.csv')
     .pipe(csv())
     .on('data', async function(row) {
@@ -73,6 +73,8 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
     })
     .on('end', function() {
         console.log('Data loaded')
+        var end = new Date() - start
+        console.log(end)
     })
 process.on('SIGINT', function() {
     console.log("Caught interrupt signal");
@@ -80,5 +82,7 @@ process.on('SIGINT', function() {
     console.log("Error: ", error)
     console.log("Encrypt:", encrypt)
     console.log("Inserted:", inserted)
+    var end = new Date() - start
+    console.log(end)
     process.exit();
 });
