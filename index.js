@@ -74,7 +74,8 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
     .on('end', function() {
         console.log('Data loaded')
         var end = new Date() - start
-        console.log(end)
+        var TPI = Math.floor(end / inserted)
+        console.log(end + "ms")
     })
 process.on('SIGINT', function() {
     console.log("Caught interrupt signal");
@@ -83,6 +84,7 @@ process.on('SIGINT', function() {
     console.log("Encrypt:", encrypt)
     console.log("Inserted:", inserted)
     var end = new Date() - start
-    console.log(end)
+    var TPI = Math.floor(end / inserted)
+    console.log(end + "ms")
     process.exit();
 });
