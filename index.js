@@ -45,7 +45,18 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
             var sql = "INSERT INTO Certificates.cert(company, domain, issuer, pubkey, valid_from, valid_to, fingerprint, fingerprint256) VALUES (" + con.escape(certificate.subject.O) + ", " + con.escape(row.Domain) + ", " + con.escape(certificate.issuer.O) + ", " + con.escape(JSON.stringify(certificate.pubkey)) + ", " + con.escape(certificate.valid_from) + ", " + con.escape(certificate.valid_to) + ", " + con.escape(certificate.fingerprint) + ", " + con.escape(certificate.fingerprint256) + ");";
             await con.query(sql, function(err, result) {
 
-                if (err) throw err;
+                if (err) {
+
+                    queryErrorNb += 1;
+                    if (BLOCK_LIMIT < 1000 && paused == true) {
+                        streamData.resume()
+                        paused = false;
+                    }
+                    BLOCK_LIMIT -= 1;
+                    error += 1
+
+
+                };
                 inserted += 1
                 if (BLOCK_LIMIT < 1000 && paused == true) {
                     streamData.resume()
@@ -58,15 +69,7 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
                     encrypt += 1;
                 }
                 success += 1;
-            }).catch(function(queryError) {
-                queryErrorNb += 1;
-                if (BLOCK_LIMIT < 1000 && paused == true) {
-                    streamData.resume()
-                    paused = false;
-                }
-                BLOCK_LIMIT -= 1;
-                error += 1
-            });
+            })
 
 
         }).catch(function(erro) {
