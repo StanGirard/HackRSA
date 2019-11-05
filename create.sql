@@ -9,3 +9,9 @@ CREATE TABLE `cert` (
   `fingerprint` varchar(100) NOT NULL,
   `fingerprint256` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE USER 'admin'@'localhost' IDENTIFIED BY 'Stanley78!';
+CREATE USER 'admin'@'%' IDENTIFIED BY 'Stanley78!';
+GRANT ALL ON *.* TO 'admin'@'localhost';
+GRANT ALL ON *.* TO 'admin'@'%';

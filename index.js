@@ -10,11 +10,11 @@ var BLOCK_LIMIT = 0;
 var paused = false;
 const mysql = require('mysql');
 
-// First you need to create a connection to the db
+// First you need to create a connection to the db host: 'database.cppynzdwfotc.eu-west-3.rds.amazonaws.com',
 const con = mysql.createConnection({
-    host: 'database.cppynzdwfotc.eu-west-3.rds.amazonaws.com',
+    host: 'localhost',
     user: 'admin',
-    password: 'Antoinestan78!',
+    password: 'Stanley78!',
 });
 
 con.connect((err) => {
