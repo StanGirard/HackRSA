@@ -6,7 +6,8 @@ var error = 0;
 var success = 0;
 var encrypt = 0;
 var inserted = 0;
-
+var BLOCK_LIMIT = 0;
+var paused = false;
 const mysql = require('mysql');
 
 // First you need to create a connection to the db
@@ -30,10 +31,14 @@ con.connect((err) => {
     });
 });
 
-fs.createReadStream('top10milliondomains.csv')
+const streamData = fs.createReadStream('top10milliondomains.csv')
     .pipe(csv())
     .on('data', async function(row) {
-
+        if (BLOCK_LIMIT > 1000) {
+            streamData.pause()
+            paused = true;
+        }
+        BLOCK_LIMIT += 1;
         await sslCertificate.get(row.Domain).then(async function(certificate) {
             var certi = JSON.stringify(certificate)
             var sql = "INSERT INTO Certificates.certificate (domain, certificate) VALUES (" + con.escape(row.Domain) + ", " + con.escape(certi) + ");";
@@ -41,7 +46,12 @@ fs.createReadStream('top10milliondomains.csv')
 
                 if (err) throw err;
                 inserted += 1
-                console.log(inserted);
+                if (BLOCK_LIMIT < 200 && paused == true) {
+                    streamData.resume()
+                    paused = false;
+                }
+                BLOCK_LIMIT -= 1;
+                console.log("Block:" + BLOCK_LIMIT + "Inserted: " + inserted);
 
                 if (certificate.issuer.O == "Let's Encrypt") {
                     encrypt += 1;
@@ -52,6 +62,11 @@ fs.createReadStream('top10milliondomains.csv')
 
         }).catch(function(erro) {
             //console.error(erro);
+            if (BLOCK_LIMIT < 200 && paused == true) {
+                streamData.resume()
+                paused = false;
+            }
+            BLOCK_LIMIT -= 1;
             error += 1;
         });
 
@@ -64,5 +79,6 @@ process.on('SIGINT', function() {
     console.log("Success: " + success)
     console.log("Error: ", error)
     console.log("Encrypt:", encrypt)
+    console.log("Inserted:", inserted)
     process.exit();
 });
