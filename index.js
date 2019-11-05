@@ -7,6 +7,7 @@ var success = 0;
 var encrypt = 0;
 var inserted = 0;
 var BLOCK_LIMIT = 0;
+var queryErrorNb = 0
 var paused = false;
 const mysql = require('mysql');
 
@@ -51,12 +52,14 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
                     paused = false;
                 }
                 BLOCK_LIMIT -= 1;
-                console.log("Block:" + BLOCK_LIMIT + "Inserted: " + inserted);
+                console.log("Block:" + BLOCK_LIMIT + "Inserted: " + inserted + ", Query Error: " + queryErrorNb);
 
                 if (certificate.issuer.O == "Let's Encrypt") {
                     encrypt += 1;
                 }
                 success += 1;
+            }).catch(function(queryError) {
+                queryErrorNb += 1;
             });
 
 
