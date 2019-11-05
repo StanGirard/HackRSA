@@ -24,11 +24,11 @@ con.connect((err) => {
     }
     console.log('Connection established');
 
-    var sql = "CREATE TABLE IF NOT EXISTS `Certificates`.`certificate` (`id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, `domain` VARCHAR(255) NULL, `certificate` VARCHAR(16000) NULL);";
+    /*var sql = "CREATE TABLE IF NOT EXISTS `Certificates`.`certificate` (`id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, `domain` VARCHAR(255) NULL, `certificate` VARCHAR(16000) NULL);";
     con.query(sql, function(err, result) {
         if (err) throw err;
         console.log("Table created");
-    });
+    });*/
 });
 var start = new Date()
 const streamData = fs.createReadStream('top10milliondomains.csv')
@@ -41,7 +41,7 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
         BLOCK_LIMIT += 1;
         await sslCertificate.get(row.Domain).then(async function(certificate) {
             var certi = JSON.stringify(certificate)
-            var sql = "INSERT INTO Certificates.certificate (domain, certificate) VALUES (" + con.escape(row.Domain) + ", " + con.escape(certi) + ");";
+            var sql = "INSERT INTO Certificates.cert(company, domain, issuer, pubkey, valid_from, valid_to, fingerprint, fingerprint256) VALUES (" + con.escape(certificate.subject.O) + ", " + con.escape(certificate.subject.CN) + ", " + con.escape(certificate.subject.CN) + ", " + con.escape(JSON.stringify(certificate.pubkey)) + ", " + con.escape(certificate.valid_from) + ", " + con.escape(certificate.valid_to) + ", " + con.escape(certificate.fingerprint) + ", " + con.escape(certificate.fingerprint256) + ");";
             await con.query(sql, function(err, result) {
 
                 if (err) throw err;
