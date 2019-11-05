@@ -34,7 +34,7 @@ con.connect((err) => {
 const streamData = fs.createReadStream('top10milliondomains.csv')
     .pipe(csv())
     .on('data', async function(row) {
-        if (BLOCK_LIMIT > 1000) {
+        if (BLOCK_LIMIT > 5000) {
             streamData.pause()
             paused = true;
         }
@@ -46,7 +46,7 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
 
                 if (err) throw err;
                 inserted += 1
-                if (BLOCK_LIMIT < 200 && paused == true) {
+                if (BLOCK_LIMIT < 1000 && paused == true) {
                     streamData.resume()
                     paused = false;
                 }
@@ -62,7 +62,7 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
 
         }).catch(function(erro) {
             //console.error(erro);
-            if (BLOCK_LIMIT < 200 && paused == true) {
+            if (BLOCK_LIMIT < 1000 && paused == true) {
                 streamData.resume()
                 paused = false;
             }
