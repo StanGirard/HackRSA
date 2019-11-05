@@ -60,6 +60,12 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
                 success += 1;
             }).catch(function(queryError) {
                 queryErrorNb += 1;
+                if (BLOCK_LIMIT < 1000 && paused == true) {
+                    streamData.resume()
+                    paused = false;
+                }
+                BLOCK_LIMIT -= 1;
+                error += 1
             });
 
 
