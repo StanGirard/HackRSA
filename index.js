@@ -12,6 +12,7 @@ var queryErrorNb = 0
 var paused = false;
 const mysql = require('mysql');
 
+
 // First you need to create a connection to the db host: 'database.cppynzdwfotc.eu-west-3.rds.amazonaws.com',
 const con = mysql.createConnection({
     host: 'localhost',
@@ -34,6 +35,7 @@ con.connect((err) => {
     });*/
 });
 var start = new Date()
+var calc = new Date()
 const streamData = fs.createReadStream('top10milliondomains.csv')
     .pipe(es.split())
     .on('data', async function(row) {
@@ -78,7 +80,11 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
                     }
                     */
                     //console.log("Block: " + BLOCK_LIMIT + ", Inserted: " + inserted + ", Query Error: " + queryErrorNb + ' Error: ' + error + " ," + max + 'mb');
-                    console.log(BLOCK_LIMIT)
+
+                    var end = new Date()
+                    var time = end - calc
+                    calc = end
+                    console.log(BLOCK_LIMIT + " , Time: " + time + "ms")
                 }
 
                 if (certificate.issuer.O == "Let's Encrypt") {
