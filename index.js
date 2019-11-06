@@ -14,7 +14,7 @@ const mysql = require('mysql');
 
 // First you need to create a connection to the db host: 'database.cppynzdwfotc.eu-west-3.rds.amazonaws.com',
 const con = mysql.createConnection({
-    host: 'localhost',
+    host: '139.59.179.77',
     user: 'admin',
     password: 'Stanley78!',
 });
@@ -36,22 +36,22 @@ con.connect((err) => {
 var start = new Date()
 const streamData = fs.createReadStream('top10milliondomains.csv')
     .pipe(es.split())
-    .on('data', function(row) {
+    .on('data', async function(row) {
 
-        if (BLOCK_LIMIT > 1000 && paused == false) {
+        if (BLOCK_LIMIT > 5000 && paused == false) {
             streamData.pause()
             paused = true;
         }
         BLOCK_LIMIT += 1;
-        return sslCertificate.get(row.split(',')[1].replace('"', '').replace('"', ''), 1000, 443, 'https:').then(function(certificate) {
-            var sql = "INSERT INTO Certificates.cert(company, domain, issuer, pubkey, valid_from, valid_to, fingerprint, fingerprint256) VALUES (" + con.escape(certificate.subject.O) + ", " + con.escape(row.split(',')[1].replace('"', '')) + ", " + con.escape(certificate.issuer.O) + ", " + con.escape(JSON.stringify(certificate.pubkey)) + ", " + con.escape(certificate.valid_from) + ", " + con.escape(certificate.valid_to) + ", " + con.escape(certificate.fingerprint) + ", " + con.escape(certificate.fingerprint256) + ");";
-            return con.query(sql, function(err, result) {
+        return await sslCertificate.get(row.split(',')[1].replace('"', '').replace('"', ''), 1000, 443, 'https:').then(async function(certificate) {
+            var sql = "INSERT INTO Certificates.cert(company, domain, issuer, pubkey, valid_from, valid_to, fingerprint, fingerprint256) VALUES (" + con.escape(certificate.subject.O) + ", " + con.escape(row.split(',')[1].replace('"', '').replace('"', '')) + ", " + con.escape(certificate.issuer.O) + ", " + con.escape(JSON.stringify(certificate.pubkey)) + ", " + con.escape(certificate.valid_from) + ", " + con.escape(certificate.valid_to) + ", " + con.escape(certificate.fingerprint) + ", " + con.escape(certificate.fingerprint256) + ");";
+            return await con.query(sql, async function(err, result) {
                 BLOCK_LIMIT -= 1;
                 if (err) {
 
                     queryErrorNb += 1;
                     BLOCK_LIMIT -= 1;
-                    if (BLOCK_LIMIT <= 100 && paused == true) {
+                    if (BLOCK_LIMIT <= 1000 && paused == true) {
                         paused = false;
                         streamData.resume()
 
@@ -62,7 +62,7 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
 
                 };
                 inserted += 1
-                if (BLOCK_LIMIT <= 100 && paused == true) {
+                if (BLOCK_LIMIT <= 1000 && paused == true) {
                     paused = false;
                     streamData.resume()
 
@@ -89,7 +89,7 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
         }).catch(function(erro) {
             //console.error(erro);
             BLOCK_LIMIT -= 1;
-            if (BLOCK_LIMIT <= 100 && paused == true) {
+            if (BLOCK_LIMIT <= 1000 && paused == true) {
                 paused = false;
                 streamData.resume()
 
