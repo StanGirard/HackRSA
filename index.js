@@ -43,9 +43,9 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
             paused = true;
         }
         BLOCK_LIMIT += 1;
-        return await sslCertificate.get(row.split(',')[1].replace('"', '').replace('"', ''), 1000, 443, 'https:').then(async function(certificate) {
+        return sslCertificate.get(row.split(',')[1].replace('"', '').replace('"', ''), 1000, 443, 'https:').then(async function(certificate) {
             var sql = "INSERT INTO Certificates.cert(company, domain, issuer, pubkey, valid_from, valid_to, fingerprint, fingerprint256) VALUES (" + con.escape(certificate.subject.O) + ", " + con.escape(row.split(',')[1].replace('"', '').replace('"', '')) + ", " + con.escape(certificate.issuer.O) + ", " + con.escape(JSON.stringify(certificate.pubkey)) + ", " + con.escape(certificate.valid_from) + ", " + con.escape(certificate.valid_to) + ", " + con.escape(certificate.fingerprint) + ", " + con.escape(certificate.fingerprint256) + ");";
-            return await con.query(sql, async function(err, result) {
+            return con.query(sql, async function(err, result) {
                 BLOCK_LIMIT -= 1;
                 if (err) {
 
