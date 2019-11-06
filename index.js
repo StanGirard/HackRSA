@@ -22,6 +22,7 @@ const con = mysql.createConnection({
 con.connect((err) => {
     if (err) {
         console.log('Error connecting to Db');
+        throw err;
         return;
     }
     console.log('Connection established');
@@ -95,6 +96,7 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
             }
 
             error += 1;
+            return;
         });
 
     })
