@@ -13,7 +13,7 @@ const mysql = require('mysql');
 
 // First you need to create a connection to the db host: 'database.cppynzdwfotc.eu-west-3.rds.amazonaws.com',
 const con = mysql.createConnection({
-    host: 'localhost',
+    host: '139.59.179.77',
     user: 'admin',
     password: 'Stanley78!',
 });
@@ -34,16 +34,16 @@ con.connect((err) => {
 var start = new Date()
 const streamData = fs.createReadStream('top10milliondomains.csv')
     .pipe(csv())
-    .on('data', async function(row) {
+    .on('data', function(row) {
         if (BLOCK_LIMIT > 10000 && paused == false) {
             streamData.pause()
             paused = true;
         }
         BLOCK_LIMIT += 1;
-        await sslCertificate.get(row.Domain).then(async function(certificate) {
+        sslCertificate.get(row.Domain).then(function(certificate) {
             var certi = JSON.stringify(certificate)
             var sql = "INSERT INTO Certificates.cert(company, domain, issuer, pubkey, valid_from, valid_to, fingerprint, fingerprint256) VALUES (" + con.escape(certificate.subject.O) + ", " + con.escape(row.Domain) + ", " + con.escape(certificate.issuer.O) + ", " + con.escape(JSON.stringify(certificate.pubkey)) + ", " + con.escape(certificate.valid_from) + ", " + con.escape(certificate.valid_to) + ", " + con.escape(certificate.fingerprint) + ", " + con.escape(certificate.fingerprint256) + ");";
-            await con.query(sql, function(err, result) {
+            con.query(sql, function(err, result) {
 
                 if (err) {
 
