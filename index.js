@@ -7,14 +7,14 @@ var error = 0;
 var success = 0;
 var encrypt = 0;
 var inserted = 0;
-var BLOCK_LIMIT = 0;
+var BLOCK_LIMIT = null;
 var queryErrorNb = 0
 var paused = false;
 const mysql = require('mysql');
 
 // First you need to create a connection to the db host: 'database.cppynzdwfotc.eu-west-3.rds.amazonaws.com',
 const con = mysql.createConnection({
-    host: 'localhost',
+    host: '139.59.179.77',
     user: 'admin',
     password: 'Stanley78!',
 });
@@ -36,7 +36,10 @@ var start = new Date()
 const streamData = fs.createReadStream('top10milliondomains.csv')
     .pipe(es.split())
     .on('data', function(row) {
-        if (BLOCK_LIMIT > 10000 && paused == false) {
+        if (BLOCK_LIMIT == null) {
+            BLOCK_LIMIT = -1
+        }
+        if (BLOCK_LIMIT > 200 && paused == false) {
             streamData.pause()
             paused = true;
         }
@@ -44,27 +47,30 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
         sslCertificate.get(row.split(',')[1].replace('"', '').replace('"', '')).then(function(certificate) {
             var sql = "INSERT INTO Certificates.cert(company, domain, issuer, pubkey, valid_from, valid_to, fingerprint, fingerprint256) VALUES (" + con.escape(certificate.subject.O) + ", " + con.escape(row.split(',')[1].replace('"', '')) + ", " + con.escape(certificate.issuer.O) + ", " + con.escape(JSON.stringify(certificate.pubkey)) + ", " + con.escape(certificate.valid_from) + ", " + con.escape(certificate.valid_to) + ", " + con.escape(certificate.fingerprint) + ", " + con.escape(certificate.fingerprint256) + ");";
             con.query(sql, function(err, result) {
-
+                BLOCK_LIMIT -= 1;
                 if (err) {
 
                     queryErrorNb += 1;
-                    if (BLOCK_LIMIT < 2000 && paused == true) {
+                    BLOCK_LIMIT -= 1;
+                    if (BLOCK_LIMIT <= 0 && paused == true) {
                         streamData.resume()
                         paused = false;
                     }
-                    BLOCK_LIMIT -= 1;
+
                     error += 1
 
 
                 };
                 inserted += 1
-                if (BLOCK_LIMIT < 2000 && paused == true) {
+                if (BLOCK_LIMIT <= 0 && paused == true) {
+                    console.log(BLOCK_LIMIT)
                     streamData.resume()
                     paused = false;
                 }
-                BLOCK_LIMIT -= 1;
+
+
                 if (BLOCK_LIMIT % 100 == 0) {
-                    console.log("Block: " + BLOCK_LIMIT + ", Inserted: " + inserted + ", Query Error: " + queryErrorNb + ' Error: ' + error);
+                    console.log("Block: " + BLOCK_LIMIT + ", Inserted: " + inserted + ", Query Error: " + queryErrorNb + ' Error: ' + error + " ," + Math.floor(process.memoryUsage().heapUsed / 1024 / 1024) + 'mb');
                 }
 
                 if (certificate.issuer.O == "Let's Encrypt") {
@@ -76,11 +82,12 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
 
         }).catch(function(erro) {
             //console.error(erro);
-            if (BLOCK_LIMIT < 2000 && paused == true) {
+            BLOCK_LIMIT -= 1;
+            if (BLOCK_LIMIT <= 0 && paused == true) {
                 streamData.resume()
                 paused = false;
             }
-            BLOCK_LIMIT -= 1;
+
             error += 1;
         });
 
