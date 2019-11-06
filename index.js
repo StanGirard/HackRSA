@@ -14,7 +14,7 @@ const mysql = require('mysql');
 
 // First you need to create a connection to the db host: 'database.cppynzdwfotc.eu-west-3.rds.amazonaws.com',
 const con = mysql.createConnection({
-    host: '139.59.179.77',
+    host: 'localhost',
     user: 'admin',
     password: 'Stanley78!',
 });
