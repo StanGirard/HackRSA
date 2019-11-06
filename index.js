@@ -63,7 +63,9 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
                     paused = false;
                 }
                 BLOCK_LIMIT -= 1;
-                console.log("Block:" + BLOCK_LIMIT + "Inserted: " + inserted + ", Query Error: " + queryErrorNb);
+                if (BLOCK_LIMIT % 100 == 0) {
+                    console.log("Block:" + BLOCK_LIMIT + "Inserted: " + inserted + ", Query Error: " + queryErrorNb);
+                }
 
                 if (certificate.issuer.O == "Let's Encrypt") {
                     encrypt += 1;
