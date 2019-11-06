@@ -1,5 +1,6 @@
 var csv = require('csv-parser')
 var fs = require('fs')
+var es = require('event-stream')
 var data = []
 const sslCertificate = require('get-ssl-certificate')
 var error = 0;
@@ -33,16 +34,15 @@ con.connect((err) => {
 });
 var start = new Date()
 const streamData = fs.createReadStream('top10milliondomains.csv')
-    .pipe(csv())
+    .pipe(es.split())
     .on('data', function(row) {
         if (BLOCK_LIMIT > 10000 && paused == false) {
             streamData.pause()
             paused = true;
         }
         BLOCK_LIMIT += 1;
-        sslCertificate.get(row.Domain).then(function(certificate) {
-            var certi = JSON.stringify(certificate)
-            var sql = "INSERT INTO Certificates.cert(company, domain, issuer, pubkey, valid_from, valid_to, fingerprint, fingerprint256) VALUES (" + con.escape(certificate.subject.O) + ", " + con.escape(row.Domain) + ", " + con.escape(certificate.issuer.O) + ", " + con.escape(JSON.stringify(certificate.pubkey)) + ", " + con.escape(certificate.valid_from) + ", " + con.escape(certificate.valid_to) + ", " + con.escape(certificate.fingerprint) + ", " + con.escape(certificate.fingerprint256) + ");";
+        sslCertificate.get(row.split(',')[1].replace('"', '').replace('"', '')).then(function(certificate) {
+            var sql = "INSERT INTO Certificates.cert(company, domain, issuer, pubkey, valid_from, valid_to, fingerprint, fingerprint256) VALUES (" + con.escape(certificate.subject.O) + ", " + con.escape(row.split(',')[1].replace('"', '')) + ", " + con.escape(certificate.issuer.O) + ", " + con.escape(JSON.stringify(certificate.pubkey)) + ", " + con.escape(certificate.valid_from) + ", " + con.escape(certificate.valid_to) + ", " + con.escape(certificate.fingerprint) + ", " + con.escape(certificate.fingerprint256) + ");";
             con.query(sql, function(err, result) {
 
                 if (err) {
@@ -64,7 +64,7 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
                 }
                 BLOCK_LIMIT -= 1;
                 if (BLOCK_LIMIT % 100 == 0) {
-                    console.log("Block:" + BLOCK_LIMIT + "Inserted: " + inserted + ", Query Error: " + queryErrorNb);
+                    console.log("Block: " + BLOCK_LIMIT + ", Inserted: " + inserted + ", Query Error: " + queryErrorNb + ' Error: ' + error);
                 }
 
                 if (certificate.issuer.O == "Let's Encrypt") {
