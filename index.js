@@ -35,7 +35,7 @@ var start = new Date()
 const streamData = fs.createReadStream('top10milliondomains.csv')
     .pipe(csv())
     .on('data', async function(row) {
-        if (BLOCK_LIMIT > 25000) {
+        if (BLOCK_LIMIT > 10000 && paused == false) {
             streamData.pause()
             paused = true;
         }
@@ -48,7 +48,7 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
                 if (err) {
 
                     queryErrorNb += 1;
-                    if (BLOCK_LIMIT < 5000 && paused == true) {
+                    if (BLOCK_LIMIT < 2000 && paused == true) {
                         streamData.resume()
                         paused = false;
                     }
@@ -58,7 +58,7 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
 
                 };
                 inserted += 1
-                if (BLOCK_LIMIT < 5000 && paused == true) {
+                if (BLOCK_LIMIT < 2000 && paused == true) {
                     streamData.resume()
                     paused = false;
                 }
@@ -74,7 +74,7 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
 
         }).catch(function(erro) {
             //console.error(erro);
-            if (BLOCK_LIMIT < 5000 && paused == true) {
+            if (BLOCK_LIMIT < 2000 && paused == true) {
                 streamData.resume()
                 paused = false;
             }
