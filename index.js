@@ -17,7 +17,7 @@ const mysql = require('mysql');
 
 // First you need to create a connection to the db host: 'database.cppynzdwfotc.eu-west-3.rds.amazonaws.com',
 const con = mysql.createConnection({
-    host: 'localhost',
+    host: '139.59.179.77',
     user: 'admin',
     password: 'Stanley78!',
 });
@@ -48,7 +48,7 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
         }
         BLOCK_LIMIT += 1;
         sslrunning += 1;
-        return sslCertificate.get(row.split(',')[1].replace('"', '').replace('"', ''), 1000, 443, 'https:').then(async function(certificate) {
+        return sslCertificate.get(row.split(',')[1].replace('"', '').replace('"', ''), 250, 443, 'https:').then(async function(certificate) {
             var sql = "INSERT INTO Certificates.cert(company, domain, issuer, pubkey, valid_from, valid_to, fingerprint, fingerprint256) VALUES (" + con.escape(certificate.subject.O) + ", " + con.escape(row.split(',')[1].replace('"', '').replace('"', '')) + ", " + con.escape(certificate.issuer.O) + ", " + con.escape(JSON.stringify(certificate.pubkey)) + ", " + con.escape(certificate.valid_from) + ", " + con.escape(certificate.valid_to) + ", " + con.escape(certificate.fingerprint) + ", " + con.escape(certificate.fingerprint256) + ");";
             sqlrunning += 1
             sslrunning -= 1
@@ -105,6 +105,8 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
         }).catch(function(erro) {
             //console.error(erro);
             BLOCK_LIMIT -= 1;
+            sslrunning -= 1;
+            sqlrunning -= 1;
             if (BLOCK_LIMIT <= 2000 && paused == true) {
                 paused = false;
                 streamData.resume()
