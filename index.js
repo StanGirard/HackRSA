@@ -9,6 +9,8 @@ var encrypt = 0;
 var inserted = 0;
 var BLOCK_LIMIT = 0;
 var queryErrorNb = 0
+var sslrunning = 0;
+var sqlrunning = 0;
 var paused = false;
 const mysql = require('mysql');
 
@@ -40,20 +42,24 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
     .pipe(es.split())
     .on('data', async function(row) {
 
-        if (BLOCK_LIMIT > 5000 && paused == false) {
+        if (BLOCK_LIMIT > 10000 && paused == false) {
             streamData.pause()
             paused = true;
         }
         BLOCK_LIMIT += 1;
+        sslrunning += 1;
         return sslCertificate.get(row.split(',')[1].replace('"', '').replace('"', ''), 1000, 443, 'https:').then(async function(certificate) {
             var sql = "INSERT INTO Certificates.cert(company, domain, issuer, pubkey, valid_from, valid_to, fingerprint, fingerprint256) VALUES (" + con.escape(certificate.subject.O) + ", " + con.escape(row.split(',')[1].replace('"', '').replace('"', '')) + ", " + con.escape(certificate.issuer.O) + ", " + con.escape(JSON.stringify(certificate.pubkey)) + ", " + con.escape(certificate.valid_from) + ", " + con.escape(certificate.valid_to) + ", " + con.escape(certificate.fingerprint) + ", " + con.escape(certificate.fingerprint256) + ");";
-            return con.query(sql, async function(err, result) {
+            sqlrunning += 1
+            sslrunning -= 1
+            return await con.query(sql, async function(err, result) {
+                sqlrunning -= 1;
                 BLOCK_LIMIT -= 1;
                 if (err) {
 
                     queryErrorNb += 1;
                     BLOCK_LIMIT -= 1;
-                    if (BLOCK_LIMIT <= 1000 && paused == true) {
+                    if (BLOCK_LIMIT <= 2000 && paused == true) {
                         paused = false;
                         streamData.resume()
 
@@ -64,7 +70,7 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
 
                 };
                 inserted += 1
-                if (BLOCK_LIMIT <= 1000 && paused == true) {
+                if (BLOCK_LIMIT <= 2000 && paused == true) {
                     paused = false;
                     streamData.resume()
 
@@ -72,19 +78,21 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
 
 
                 if (BLOCK_LIMIT % 100 == 0) {
-                    /*const used = process.memoryUsage();
+                    const used = process.memoryUsage();
                     var max = 0;
                     for (let key in used) {
 
                         max += Math.round(used[key] / 1024 / 1024);
                     }
-                    */
-                    //console.log("Block: " + BLOCK_LIMIT + ", Inserted: " + inserted + ", Query Error: " + queryErrorNb + ' Error: ' + error + " ," + max + 'mb');
+
+                    console.log("Block: " + BLOCK_LIMIT + ", Inserted: " + inserted + ", Query Error: " + queryErrorNb + ' Error: ' + error + " ," + max + 'mb');
 
                     var end = new Date()
                     var time = end - calc
                     calc = end
                     console.log(BLOCK_LIMIT + " , Time: " + time + "ms")
+                    console.log(sslrunning)
+                    console.log(sqlrunning)
                 }
 
                 if (certificate.issuer.O == "Let's Encrypt") {
@@ -97,7 +105,7 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
         }).catch(function(erro) {
             //console.error(erro);
             BLOCK_LIMIT -= 1;
-            if (BLOCK_LIMIT <= 1000 && paused == true) {
+            if (BLOCK_LIMIT <= 2000 && paused == true) {
                 paused = false;
                 streamData.resume()
 
