@@ -70,13 +70,15 @@ const streamData = fs.createReadStream('top10milliondomains.csv')
 
 
                 if (BLOCK_LIMIT % 100 == 0) {
-                    const used = process.memoryUsage();
+                    /*const used = process.memoryUsage();
                     var max = 0;
                     for (let key in used) {
 
                         max += Math.round(used[key] / 1024 / 1024);
                     }
-                    console.log("Block: " + BLOCK_LIMIT + ", Inserted: " + inserted + ", Query Error: " + queryErrorNb + ' Error: ' + error + " ," + max + 'mb');
+                    */
+                    //console.log("Block: " + BLOCK_LIMIT + ", Inserted: " + inserted + ", Query Error: " + queryErrorNb + ' Error: ' + error + " ," + max + 'mb');
+                    console.log(BLOCK_LIMIT)
                 }
 
                 if (certificate.issuer.O == "Let's Encrypt") {
