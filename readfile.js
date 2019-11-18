@@ -41,7 +41,7 @@ async.waterfall([
         // `files` is just an array of file names, not full path.
 
         // Consume 10 files in parallel.
-        async.eachLimit(files, 10, async function (filename, done) {
+        async.eachLimit(files, 10, function (filename, done) {
             var filePath = path.join(parentDir, filename);
             var cert = Certificate.fromPEM(fs.readFileSync(filePath))
             var CN = con.escape(cert.subject.commonName)
@@ -55,7 +55,7 @@ async.waterfall([
             var sql = "INSERT INTO Certificates.decoded (filename, subjectCN, subjectON, pubkeyalgo, pubkey, issuerON, validFrom, validTo)" 
             sql += " VALUES ('" + filename + "'," + CN + "," + ON +"," + PKAlgo + "," + PK + "," + ION + "," + VF + "," + VT + ");"
             
-            await con.query(sql, async function(err, result) { 
+            con.query(sql, async function(err, result) { 
                 if (err){
                     errorNB += 1
                     if (errorNB % 100 == 0){
@@ -69,8 +69,9 @@ async.waterfall([
                 }
                 
             })
-            
             done()
+            
+            
         }, cb);
     }
 ], function (err) {
