@@ -58,7 +58,7 @@ async.waterfall([
             await con.query(sql, async function(err, result) { 
                 if (err){
                     errorNB += 1
-                    if (error % 100 == 0){
+                    if (errorNB % 100 == 0){
                         console.log("Error:", errorNB)
                     }
                 } else {
@@ -70,7 +70,7 @@ async.waterfall([
                 
             })
             
-            return
+            done()
         }, cb);
     }
 ], function (err) {
