@@ -1,14 +1,15 @@
 var async = require('async'),
     fs = require('fs'),
     path = require('path'),
-    parentDir = '/Users/stan/Documents/Dev/GetCertificates/test'
+    parentDir = '/root/SSLCert/cert'
     const { Certificate, PrivateKey } = require('@fidm/x509')
     const mysql = require('mysql');
 
 var read = 0
+var errorNB = 0
 // First you need to create a connection to the db host: 'database.cppynzdwfotc.eu-west-3.rds.amazonaws.com',
 const con = mysql.createConnection({
-    host: '139.59.179.77',
+    host: 'localhost',
     user: 'admin',
     password: 'Stanley78!',
 });
@@ -56,7 +57,10 @@ async.waterfall([
             
             await con.query(sql, async function(err, result) { 
                 if (err){
-                    console.log("Error")
+                    errorNB += 1
+                    if (error % 100 == 0){
+                        console.log("Error:", errorNB)
+                    }
                 } else {
                     read += 1
                     if (read % 100 == 0){
