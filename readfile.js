@@ -42,37 +42,31 @@ async.waterfall([
         // Consume 10 files in parallel.
         async.eachLimit(files, 10, async function (filename, done) {
             var filePath = path.join(parentDir, filename);
-            try {
-                
-              
-                var cert = Certificate.fromPEM(fs.readFileSync(filePath))
-                var CN = con.escape(cert.subject.commonName)
-                var ON= con.escape(cert.subject.organizationName)
-                var PKAlgo = con.escape(cert.publicKey.algo)
-                var PK= con.escape(cert.publicKeyRaw)
-                var KU = con.escape(cert.keyUsage)
-                var ION = con.escape(cert.issuer.organizationName)
-                var VF = con.escape(cert.validFrom)
-                var VT = con.escape(cert.validTo)
-                var sql = "INSERT INTO Certificates.decoded (filename, subjectCN, subjectON, pubkeyalgo, pubkey, issuerON, validFrom, validTo)" 
-                sql += " VALUES ('" + filename + "'," + CN + "," + ON +"," + PKAlgo + "," + PK + "," + ION + "," + VF + "," + VT + ");"
-                
-                await con.query(sql, async function(err, result) { 
-                    if (err){
-                        console.log("Error")
-                    } else {
-                        read += 1
-                        if (read % 100 == 0){
-                            console.log(read)
-                        }
-                    }
-                })
-                
-            } catch(error) {
-                console.log("Error")
-            }
-            done;
+            var cert = Certificate.fromPEM(fs.readFileSync(filePath))
+            var CN = con.escape(cert.subject.commonName)
+            var ON= con.escape(cert.subject.organizationName)
+            var PKAlgo = con.escape(cert.publicKey.algo)
+            var PK= con.escape(cert.publicKeyRaw)
+            var KU = con.escape(cert.keyUsage)
+            var ION = con.escape(cert.issuer.organizationName)
+            var VF = con.escape(cert.validFrom)
+            var VT = con.escape(cert.validTo)
+            var sql = "INSERT INTO Certificates.decoded (filename, subjectCN, subjectON, pubkeyalgo, pubkey, issuerON, validFrom, validTo)" 
+            sql += " VALUES ('" + filename + "'," + CN + "," + ON +"," + PKAlgo + "," + PK + "," + ION + "," + VF + "," + VT + ");"
             
+            await con.query(sql, async function(err, result) { 
+                if (err){
+                    console.log("Error")
+                } else {
+                    read += 1
+                    if (read % 100 == 0){
+                        console.log(read)
+                    }
+                }
+                
+            })
+            
+            return
         }, cb);
     }
 ], function (err) {
