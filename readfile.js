@@ -42,6 +42,7 @@ async.waterfall([
 
         // Consume 10 files in parallel.
         async.eachLimit(files, 10, function (filename, done) {
+            try {
             var filePath = path.join(parentDir, filename);
             var cert = Certificate.fromPEM(fs.readFileSync(filePath))
             var CN = con.escape(cert.subject.commonName)
@@ -70,6 +71,10 @@ async.waterfall([
                 
             })
             done()
+        } catch(error){
+            done()
+        }
+        
             
             
         }, cb);
