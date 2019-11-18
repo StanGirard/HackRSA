@@ -10,6 +10,7 @@
     "author": "Stanislas Girard",
     "license": "MIT",
     "dependencies": {
+        "@fidm/x509": "^1.2.1",
         "async": "^3.1.0",
         "csv-parser": "^2.3.1",
         "event-stream": "^4.0.1",
