@@ -40,7 +40,7 @@ async.waterfall([
         // `files` is just an array of file names, not full path.
 
         // Consume 10 files in parallel.
-        async.eachLimit(files, 10,async function (filename, done) {
+        async.eachLimit(files, 10, async function (filename, done) {
             var filePath = path.join(parentDir, filename);
             try {
                 
@@ -67,12 +67,11 @@ async.waterfall([
                         }
                     }
                 })
-                done();
+                
             } catch(error) {
                 console.log("Error")
-                done()
-
             }
+            done;
             
         }, cb);
     }
