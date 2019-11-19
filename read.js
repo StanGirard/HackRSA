@@ -16,27 +16,31 @@ const con = mysql.createConnection({
     password: 'Stanley78!',
 });
 
-con.connect((err) => {
-    if (err) {
-        console.log('Error connecting to Db');
-        throw err;
-        return;
-    }
-    console.log('Connection established');
+async function connectDb() {
+    con.connect((err) => {
+        if (err) {
+            console.log('Error connecting to Db');
+            throw err;
+            return;
+        }
+        console.log('Connection established');
+    
+        /*var sql = "CREATE TABLE IF NOT EXISTS `Certificates`.`certificate` (`id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, `domain` VARCHAR(255) NULL, `certificate` VARCHAR(16000) NULL);";
+        con.query(sql, function(err, result) {
+            if (err) throw err;
+            console.log("Table created");
+        });*/
+    });  
+}
 
-    /*var sql = "CREATE TABLE IF NOT EXISTS `Certificates`.`certificate` (`id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, `domain` VARCHAR(255) NULL, `certificate` VARCHAR(16000) NULL);";
-    con.query(sql, function(err, result) {
-        if (err) throw err;
-        console.log("Table created");
-    });*/
-});  
 
 
 var files = fs.readdirSync('cert/');
-
-
-for (const file of files) {
+async function processArray(files) {
+    await connectDb()
+    for (const file of files) {
     try {
+        console.log(file)
         var filePath = path.join(parentDir, file);
         var cert = Certificate.fromPEM(fs.readFileSync(filePath))
         var CN = con.escape(cert.subject.commonName)
@@ -50,7 +54,7 @@ for (const file of files) {
         var sql = "INSERT INTO Certificates.decoded (filename, subjectCN, subjectON, pubkeyalgo, pubkey, issuerON, validFrom, validTo)" 
         sql += " VALUES ('" + file + "'," + CN + "," + ON +"," + PKAlgo + "," + PK + "," + ION + "," + VF + "," + VT + ");"
         
-        con.query(sql, function(err, result) { 
+        await con.query(sql, function(err, result) { 
             if (err){
                 errorNB += 1
                 if (errorNB % 100 == 0){
@@ -68,4 +72,7 @@ for (const file of files) {
     } catch(error){
         console.log(error)
     }
+    }
 }
+
+processArray(files)
