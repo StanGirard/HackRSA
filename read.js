@@ -1,17 +1,17 @@
 var async = require('async'),
     fs = require('fs'),
     path = require('path'),
-    parentDir = '/root/SSLCert/cert'
-    //parentDir = "/Users/stan/Documents/Dev/GetCertificates/test/"
-    const { Certificate, PrivateKey } = require('@fidm/x509')
-    const mysql = require('mysql');
-    var fs = require('fs');
+parentDir = '/Users/stanislasgirard/Downloads/cert'
+//parentDir = "/Users/stan/Documents/Dev/GetCertificates/test/"
+const { Certificate, PrivateKey } = require('@fidm/x509')
+const mysql = require('mysql');
+var fs = require('fs');
 
 var read = 0
 var errorNB = 0
 // First you need to create a connection to the db host: 'database.cppynzdwfotc.eu-west-3.rds.amazonaws.com',
 const con = mysql.createConnection({
-    host: 'localhost',
+    host: '167.172.165.158',
     user: 'admin',
     password: 'Stanley78!',
 });
@@ -35,7 +35,7 @@ async function connectDb() {
 
 
 
-var files = fs.readdirSync('cert/');
+var files = fs.readdirSync('/Users/stanislasgirard/Downloads/cert/');
 async function processArray(files) {
     await connectDb()
     for (const file of files) {
