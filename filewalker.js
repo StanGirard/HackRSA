@@ -1,7 +1,7 @@
 var async = require('async'),
     fs = require('fs'),
     path = require('path'),
-    parentDir = '/root/SSLCert/cert'
+    parentDir = '/root/SSLCert'
     //parentDir = "/Users/stan/Documents/Dev/GetCertificates/test"
     const { Certificate, PrivateKey } = require('@fidm/x509')
     const mysql = require('mysql');
@@ -53,7 +53,8 @@ filewalker('cert/')
             var sql = "INSERT INTO Certificates.decoded (filename, subjectCN, subjectON, pubkeyalgo, pubkey, issuerON, validFrom, validTo)" 
             sql += " VALUES ('" + p + "'," + CN + "," + ON +"," + PKAlgo + "," + PK + "," + ION + "," + VF + "," + VT + ");"
             
-            await con.query(sql, function(err, result) { 
+            con.query(sql, async function(err, result) { 
+                console.log("hello")
                 if (err){
                     errorNB += 1
                     if (errorNB % 100 == 0){
