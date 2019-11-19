@@ -32,11 +32,10 @@ con.connect((err) => {
 });  
 
 
-var files = fs.readdirSync('test/');
+var files = fs.readdirSync('cert/');
 
 
 for (const file of files) {
-    console.log(file)
     try {
         var filePath = path.join(parentDir, file);
         var cert = Certificate.fromPEM(fs.readFileSync(filePath))
