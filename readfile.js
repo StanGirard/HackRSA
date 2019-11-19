@@ -1,7 +1,8 @@
 var async = require('async'),
     fs = require('fs'),
     path = require('path'),
-    parentDir = '/root/SSLCert/cert'
+    //parentDir = '/root/SSLCert/cert'
+    parentDir = "/Users/stan/Documents/Dev/GetCertificates/test"
     const { Certificate, PrivateKey } = require('@fidm/x509')
     const mysql = require('mysql');
 
@@ -9,7 +10,7 @@ var read = 0
 var errorNB = 0
 // First you need to create a connection to the db host: 'database.cppynzdwfotc.eu-west-3.rds.amazonaws.com',
 const con = mysql.createConnection({
-    host: 'localhost',
+    host: '139.59.179.77',
     user: 'admin',
     password: 'Stanley78!',
 });
@@ -36,6 +37,7 @@ con.connect((err) => {
 async.waterfall([
     function (cb) {
         fs.readdir(parentDir, cb);
+        console.log("Done Reading file")
     },
     function (files, cb) {
         // `files` is just an array of file names, not full path.
@@ -56,7 +58,7 @@ async.waterfall([
             var sql = "INSERT INTO Certificates.decoded (filename, subjectCN, subjectON, pubkeyalgo, pubkey, issuerON, validFrom, validTo)" 
             sql += " VALUES ('" + filename + "'," + CN + "," + ON +"," + PKAlgo + "," + PK + "," + ION + "," + VF + "," + VT + ");"
             
-            con.query(sql, async function(err, result) { 
+            con.query(sql, function(err, result) { 
                 if (err){
                     errorNB += 1
                     if (errorNB % 100 == 0){
