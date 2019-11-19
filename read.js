@@ -40,7 +40,6 @@ async function processArray(files) {
     await connectDb()
     for (const file of files) {
     try {
-        console.log(file)
         var filePath = path.join(parentDir, file);
         var cert = Certificate.fromPEM(fs.readFileSync(filePath))
         var CN = con.escape(cert.subject.commonName)
@@ -66,6 +65,7 @@ async function processArray(files) {
                     console.log(read)
                 }
             }
+            console.log(file)
             
         })
         
