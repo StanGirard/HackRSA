@@ -1,8 +1,8 @@
 var async = require('async'),
     fs = require('fs'),
     path = require('path'),
-    parentDir = '/root/SSLCert'
-    //parentDir = "/Users/stan/Documents/Dev/GetCertificates/test"
+    //parentDir = '/root/SSLCert'
+    parentDir = "/Users/stan/Documents/Dev/GetCertificates"
     const { Certificate, PrivateKey } = require('@fidm/x509')
     const mysql = require('mysql');
     var filewalker = require('filewalker');
@@ -11,7 +11,7 @@ var read = 0
 var errorNB = 0
 // First you need to create a connection to the db host: 'database.cppynzdwfotc.eu-west-3.rds.amazonaws.com',
 const con = mysql.createConnection({
-    host: 'localhost',
+    host: '139.59.179.77',
     user: 'admin',
     password: 'Stanley78!',
 });
@@ -35,13 +35,13 @@ con.connect((err) => {
 
 
 
-filewalker('cert/')
+filewalker('test/')
   .on('dir', function(p) {
     console.log('dir:  %s', p);
   })
   .on('file', function(p, s) {
       console.log(p)
-            var filePath = path.join(parentDir, p);
+            var filePath = path.join(parentDir + "/test/", p);
             var cert = Certificate.fromPEM(fs.readFileSync(filePath))
             var CN = con.escape(cert.subject.commonName)
             var ON= con.escape(cert.subject.organizationName)
