@@ -39,7 +39,7 @@ filewalker('cert/')
   .on('dir', function(p) {
     console.log('dir:  %s', p);
   })
-  .on('file', async function(p, s) {
+  .on('file',async function(p, s) {
             var filePath = path.join(parentDir, p);
             var cert = Certificate.fromPEM(fs.readFileSync(filePath))
             var CN = con.escape(cert.subject.commonName)
@@ -53,7 +53,7 @@ filewalker('cert/')
             var sql = "INSERT INTO Certificates.decoded (filename, subjectCN, subjectON, pubkeyalgo, pubkey, issuerON, validFrom, validTo)" 
             sql += " VALUES ('" + p + "'," + CN + "," + ON +"," + PKAlgo + "," + PK + "," + ION + "," + VF + "," + VT + ");"
             
-            con.query(sql, async function(err, result) { 
+            await con.query(sql, function(err, result) { 
                 console.log("hello")
                 if (err){
                     errorNB += 1
