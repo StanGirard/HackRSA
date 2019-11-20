@@ -3,7 +3,7 @@ var async = require('async'),
     path = require('path')
     //parentDir = '/root/SSLCert'
     const util = require('util');
-    const parentDir = "/Users/stanislasgirard/Downloads"
+    const parentDir = "/Users/stanislasgirard/Documents/Dev/SSLCert"
     const { Certificate, PrivateKey } = require('@fidm/x509')
     const mysql = require('mysql');
     var filewalker = require('filewalker');
@@ -34,17 +34,19 @@ con.connect((err) => {
     });*/
 });    
 
+var options = {
+    maxPending: 100, // throttle handles
+  };
 
 
 
-
-filewalker('/Users/stanislasgirard/Downloads/cert/')
+filewalker('/Users/stanislasgirard/Documents/Dev/SSLCert/certexample/', options)
   .on('dir', function(p) {
     console.log('dir:  %s', p);
   })
-  .on('file', async function(p, s) {
+  .on('file',  function(p, s) {
       
-            var filePath = path.join(parentDir + "/cert/", p);
+            var filePath = path.join(parentDir + "/certexample/", p);
             var cert = Certificate.fromPEM(fs.readFileSync(filePath))
             var CN = con.escape(cert.subject.commonName)
             var ON= con.escape(cert.subject.organizationName)
@@ -57,7 +59,7 @@ filewalker('/Users/stanislasgirard/Downloads/cert/')
             var sql = "INSERT INTO Certificates.decoded (filename, subjectCN, subjectON, pubkeyalgo, pubkey, issuerON, validFrom, validTo)" 
             sql += " VALUES ('" + p + "'," + CN + "," + ON +"," + PKAlgo + "," + PK + "," + ION + "," + VF + "," + VT + ");"
             
-            query(sql, function(err, result) { 
+            return  query(sql, function(err, result) { 
                 if (err){
                     errorNB += 1
                         console.log("Error:", errorNB)
@@ -74,6 +76,8 @@ filewalker('/Users/stanislasgirard/Downloads/cert/')
                 
                 
             })
+            
+            
   })
   .on('error', function(err) {
     console.error(err);

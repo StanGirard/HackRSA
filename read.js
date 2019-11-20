@@ -45,7 +45,7 @@ var query;
 async function processArray(files) {
     
     console.log("Going in")
-    for (const file of files) {
+    files.map((file) =>  {
         var filePath = path.join(parentDir, file);
         var cert = Certificate.fromPEM(fs.readFileSync(filePath))
         var CN = con.escape(cert.subject.commonName)
@@ -59,7 +59,7 @@ async function processArray(files) {
         var sql = "INSERT INTO Certificates.decoded (filename, subjectCN, subjectON, pubkeyalgo, pubkey, issuerON, validFrom, validTo)" 
         sql += " VALUES ('" + file + "'," + CN + "," + ON +"," + PKAlgo + "," + PK + "," + ION + "," + VF + "," + VT + ");"
         
-         query(sql, function(err, result) { 
+        return query(sql, function(err, result) { 
             if (err){
                 errorNB += 1
                     console.log("Error:", errorNB)
@@ -79,7 +79,7 @@ async function processArray(files) {
         
         
     
-    }
+    })
 }
 
 
