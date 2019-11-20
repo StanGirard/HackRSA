@@ -1,9 +1,10 @@
 var async = require('async'),
     fs = require('fs'),
     path = require('path')
-parentDir = '/root/SSLCert/cert'
+
+const  parentDir = '/root/SSLCert/cert'
 const util = require('util');
-//const parentDir = "/Users/stanislasgirard/Documents/Dev/SSLCert/cert"
+//const parentDir = "/Users/stanislasgirard/Documents/Dev/SSLCert/certexample"
 const { Certificate, PrivateKey } = require('@fidm/x509')
 const mysql = require('mysql');
 var fs = require('fs');
@@ -12,7 +13,7 @@ var read = 0
 var errorNB = 0
 // First you need to create a connection to the db host: 'database.cppynzdwfotc.eu-west-3.rds.amazonaws.com',
 const con = mysql.createConnection({
-    host: '167.172.165.158',
+    host: 'localhost',
     user: 'admin',
     password: 'Stanley78!',
 });
@@ -59,7 +60,7 @@ async function processArray(files) {
         var sql = "INSERT INTO Certificates.decoded (filename, subjectCN, subjectON, pubkeyalgo, pubkey, issuerON, validFrom, validTo)" 
         sql += " VALUES ('" + file + "'," + CN + "," + ON +"," + PKAlgo + "," + PK + "," + ION + "," + VF + "," + VT + ");"
         
-        return query(sql, function(err, result) { 
+        return query(sql, async function(err, result) { 
             if (err){
                 errorNB += 1
                     console.log("Error:", errorNB)
@@ -71,7 +72,7 @@ async function processArray(files) {
                     console.log(read)
                 }
             }
-            const used = process.memoryUsage();
+            const used = await process.memoryUsage();
             for (let key in used) {
             console.log(`${key} ${Math.round(used[key] / 1024 / 1024 * 100) / 100} MB`);
             }
