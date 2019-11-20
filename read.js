@@ -1,9 +1,9 @@
 var async = require('async'),
     fs = require('fs'),
     path = require('path')
-//parentDir = '/Users/stanislasgirard/Downloads/cert'
+parentDir = '/root/SSLCert/cert'
 const util = require('util');
-const parentDir = "/Users/stanislasgirard/Documents/Dev/SSLCert/cert"
+//const parentDir = "/Users/stanislasgirard/Documents/Dev/SSLCert/cert"
 const { Certificate, PrivateKey } = require('@fidm/x509')
 const mysql = require('mysql');
 var fs = require('fs');
@@ -12,7 +12,7 @@ var read = 0
 var errorNB = 0
 // First you need to create a connection to the db host: 'database.cppynzdwfotc.eu-west-3.rds.amazonaws.com',
 const con = mysql.createConnection({
-    host: '167.172.165.158',
+    host: 'localhost',
     user: 'admin',
     password: 'Stanley78!',
 });
@@ -27,7 +27,7 @@ var query;
         }
         console.log('Connection established');
         query = util.promisify(con.query).bind(con);
-        var files = fs.readdirSync('/Users/stanislasgirard/Documents/Dev/SSLCert/cert');
+        var files = fs.readdirSync('/root/SSLCert/cert');
         processArray(files)
     
         /*var sql = "CREATE TABLE IF NOT EXISTS `Certificates`.`certificate` (`id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, `domain` VARCHAR(255) NULL, `certificate` VARCHAR(16000) NULL);";
