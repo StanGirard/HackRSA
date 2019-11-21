@@ -18,7 +18,7 @@ try:
     for filename in os.listdir(path):
         
         with open(path + filename, 'rb') as content_file:
-           
+          try: 
             content = content_file.read()
             cert = x509.load_pem_x509_certificate(content, default_backend())
             issuer = 'undefined'
@@ -49,14 +49,17 @@ try:
 
             sql = "INSERT INTO Certificates.decoded (filename, issuerON, subjectCN, pubkeye, pubkeyn)  VALUES (%s, %s, %s, %s, %s);" 
             
-            try:
-              result = cursor.execute(sql, (filename, issuer, subjectCN, publicKeye, publicKeyn))
-              cnx.commit()
-              number += 1
-            except mysql.connector.Error as err:
-              print(err)
+            
+            result = cursor.execute(sql, (filename, issuer, subjectCN, publicKeye, publicKeyn))
+            cnx.commit()
+            number += 1
             if number % 100 == 0:
               print(number)
+          except mysql.connector.Error as err:
+            print(err)
+          finally:
+            print("Error") 
+            
             
             
             
