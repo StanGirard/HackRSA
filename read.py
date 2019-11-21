@@ -9,7 +9,7 @@ from cryptography.x509.oid import NameOID, ExtensionOID, ExtendedKeyUsageOID
 from cryptography.hazmat.primitives.asymmetric import rsa
 
 from mysql.connector import errorcode
-
+var number = 0
 try:
     cnx = mysql.connector.connect(user='admin', password='Stanley78!',
                               host='localhost',
@@ -52,8 +52,11 @@ try:
             try:
               result = cursor.execute(sql, (filename, issuer, subjectCN, publicKeye, publicKeyn))
               cnx.commit()
+              number += 1
             except mysql.connector.Error as err:
               print(err)
+            if number % 100 == 0:
+              print(number)
             
             
             
