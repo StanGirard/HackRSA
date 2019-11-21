@@ -1,0 +1,13 @@
+CREATE TABLE `decoded` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `filename` varchar(45) DEFAULT NULL,
+  `subjectCN` varchar(100) DEFAULT NULL,
+  `subjectON` varchar(100) DEFAULT NULL,
+  `pubkeyalgo` varchar(45) DEFAULT NULL,
+  `pubkey` varchar(1000) NOT NULL,
+  `issuerON` varchar(120) DEFAULT NULL,
+  `validFrom` varchar(100) DEFAULT NULL,
+  `validTo` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `filename_UNIQUE` (`filename`)
+) ENGINE=InnoDB AUTO_INCREMENT=34925 DEFAULT CHARSET=latin1

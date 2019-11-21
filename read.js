@@ -1,11 +1,13 @@
 var async = require('async'),
     fs = require('fs'),
-    path = require('path'),
-    parentDir = '/root/SSLCert/cert'
-    //parentDir = "/Users/stan/Documents/Dev/GetCertificates/test/"
-    const { Certificate, PrivateKey } = require('@fidm/x509')
-    const mysql = require('mysql');
-    var fs = require('fs');
+    path = require('path')
+
+const  parentDir = '/root/SSLCert/cert'
+const util = require('util');
+//const parentDir = "/Users/stanislasgirard/Documents/Dev/SSLCert/certexample"
+const { Certificate, PrivateKey } = require('@fidm/x509')
+const mysql = require('mysql');
+var fs = require('fs');
 
 var read = 0
 var errorNB = 0
@@ -15,15 +17,19 @@ const con = mysql.createConnection({
     user: 'admin',
     password: 'Stanley78!',
 });
+var query;
 
-async function connectDb() {
-    con.connect((err) => {
+
+    con.connect( (err) => {
         if (err) {
             console.log('Error connecting to Db');
             throw err;
             return;
         }
         console.log('Connection established');
+        query = util.promisify(con.query).bind(con);
+        var files = fs.readdirSync('/root/SSLCert/cert');
+        processArray(files)
     
         /*var sql = "CREATE TABLE IF NOT EXISTS `Certificates`.`certificate` (`id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, `domain` VARCHAR(255) NULL, `certificate` VARCHAR(16000) NULL);";
         con.query(sql, function(err, result) {
@@ -31,15 +37,16 @@ async function connectDb() {
             console.log("Table created");
         });*/
     });  
-}
+    
 
 
 
-var files = fs.readdirSync('cert/');
+
+
 async function processArray(files) {
-    await connectDb()
-    for (const file of files) {
-    try {
+    
+    console.log("Going in")
+    files.map((file) =>  {
         var filePath = path.join(parentDir, file);
         var fd = fs.readFileSync(filePath)
         var cert = Certificate.fromPEM(fd)
@@ -54,27 +61,32 @@ async function processArray(files) {
         var sql = "INSERT INTO Certificates.decoded (filename, subjectCN, subjectON, pubkeyalgo, pubkey, issuerON, validFrom, validTo)" 
         sql += " VALUES ('" + file + "'," + CN + "," + ON +"," + PKAlgo + "," + PK + "," + ION + "," + VF + "," + VT + ");"
         
-        await con.query(sql, function(err, result) { 
+        return query(sql, async function(err, result) { 
             if (err){
                 errorNB += 1
-                if (errorNB % 100 == 0){
                     console.log("Error:", errorNB)
-                }
+                    
+                
             } else {
                 read += 1
                 if (read % 100 == 0){
                     console.log(read)
                 }
             }
-            console.log(file)
+            const used = await process.memoryUsage();
+            for (let key in used) {
+            console.log(`${key} ${Math.round(used[key] / 1024 / 1024 * 100) / 100} MB`);
+            }
+            
+            return result
+            
             
         })
         fd.close()
         
-    } catch(error){
-        console.log(error)
-    }
-    }
+        
+    
+    })
 }
 
-processArray(files)
+
