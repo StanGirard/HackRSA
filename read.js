@@ -41,7 +41,8 @@ async function processArray(files) {
     for (const file of files) {
     try {
         var filePath = path.join(parentDir, file);
-        var cert = Certificate.fromPEM(fs.readFileSync(filePath))
+        var fd = fs.readFileSync(filePath)
+        var cert = Certificate.fromPEM(fd)
         var CN = con.escape(cert.subject.commonName)
         var ON= con.escape(cert.subject.organizationName)
         var PKAlgo = con.escape(cert.publicKey.algo)
@@ -68,6 +69,7 @@ async function processArray(files) {
             console.log(file)
             
         })
+        fd.close()
         
     } catch(error){
         console.log(error)
