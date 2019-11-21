@@ -9,7 +9,7 @@ from cryptography.x509.oid import NameOID, ExtensionOID, ExtendedKeyUsageOID
 from cryptography.hazmat.primitives.asymmetric import rsa
 
 from mysql.connector import errorcode
-var number = 0
+number = 0
 try:
     cnx = mysql.connector.connect(user='admin', password='Stanley78!',
                               host='localhost',
