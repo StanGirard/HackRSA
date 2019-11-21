@@ -25,9 +25,9 @@ try:
             subjectCN = 'undefined'
             subjectON = 'undefined'
             publicKey = 'not RSA'
-            publicKeye = 0
-            publicKeyn = 0
-            keySize = 0
+            publicKeye = "0"
+            publicKeyn = "0"
+            keySize = "0"
             # Get Issuer
             if cert.issuer.get_attributes_for_oid(NameOID.ORGANIZATION_NAME):
                 issuer = cert.issuer.get_attributes_for_oid(NameOID.ORGANIZATION_NAME)[0].value
