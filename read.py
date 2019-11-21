@@ -1,5 +1,6 @@
 import os
 path = '/root/SSLCert/cert/'
+#path = '/Users/stanislasgirard/Documents/Dev/GetCertificates/certexample/'
 import mysql.connector
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
@@ -48,10 +49,12 @@ try:
 
             sql = "INSERT INTO Certificates.decoded (filename, issuerON, subjectCN, pubkeye, pubkeyn)  VALUES (%s, %s, %s, %s, %s);" 
             
+            try:
+              result = cursor.execute(sql, (filename, issuer, subjectCN, publicKeye, publicKeyn))
+              cnx.commit()
+            except mysql.connector.Error as err:
+              print(err)
             
-            result = cursor.execute(sql, (filename, issuer, subjectCN, publicKeye, publicKeyn))
-            
-            cnx.commit()
             
             
             
