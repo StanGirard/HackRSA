@@ -49,7 +49,7 @@ try:
 
             sql = "INSERT INTO Certificates.decoded (filename, issuerON, subjectCN, pubkeye, pubkeyn)  VALUES (%s, %s, %s, %s, %s);" 
             
-            
+            print(publicKeyn)
             result = cursor.execute(sql, (filename, issuer, subjectCN, publicKeye, publicKeyn))
             cnx.commit()
             number += 1
