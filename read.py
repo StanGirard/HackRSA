@@ -1,5 +1,5 @@
 import os
-path = '/Users/stanislasgirard/Documents/Dev/GetCertificates/certexample/'
+path = '/root/SSLCert/cert/'
 import mysql.connector
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
@@ -11,11 +11,13 @@ from mysql.connector import errorcode
 
 try:
     cnx = mysql.connector.connect(user='admin', password='Stanley78!',
-                              host='167.172.165.158',
+                              host='localhost',
                               database='Certificates')
+    cursor = cnx.cursor()
     for filename in os.listdir(path):
+        
         with open(path + filename, 'rb') as content_file:
-            cursor = cnx.cursor()
+           
             content = content_file.read()
             cert = x509.load_pem_x509_certificate(content, default_backend())
             issuer = 'undefined'
@@ -46,12 +48,15 @@ try:
 
             sql = "INSERT INTO Certificates.decoded (filename, issuerON, subjectCN, pubkeye, pubkeyn)  VALUES (%s, %s, %s, %s, %s);" 
             
-            print(sql)
+            
             result = cursor.execute(sql, (filename, issuer, subjectCN, publicKeye, publicKeyn))
-            print(result)
+            
             cnx.commit()
-            print("Record inserted successfully into Laptop table")
-            cursor.close()
+            
+            
+            
+        
+    cursor.close()
     cnx.close()
 except mysql.connector.Error as err:
   if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
