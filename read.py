@@ -12,7 +12,7 @@ from mysql.connector import errorcode
 number = 0
 try:
     cnx = mysql.connector.connect(user='admin', password='Stanley78!',
-                              host='localhost',
+                              host='167.172.165.158',
                               database='Certificates')
     cursor = cnx.cursor()
     for filename in os.listdir(path):
@@ -49,8 +49,7 @@ try:
 
             sql = "INSERT INTO Certificates.decoded (filename, issuerON, subjectCN, pubkeye, pubkeyn)  VALUES (%s, %s, %s, %s, %s);" 
             
-            print(publicKeyn)
-            result = cursor.execute(sql, (filename, issuer, subjectCN, publicKeye, publicKeyn))
+            result = cursor.execute(sql, (filename, issuer, subjectCN, str(publicKeye), str(publicKeyn)))
             cnx.commit()
             number += 1
             if number % 100 == 0:
