@@ -11,7 +11,7 @@ var fs = require('fs');
 
 var read = 0
 var errorNB = 0
-// First you need to create a connection to the db host: 'database.cppynzdwfotc.eu-west-3.rds.amazonaws.com',
+// First you need to create a connection to the db host: 'database.cppynzdwfotc.eu-west-3.rds.amazonaws.com' host: '167.172.165.158',
 const con = mysql.createConnection({
     host: '167.172.165.158',
     user: 'admin',
@@ -48,7 +48,8 @@ async function processArray(files) {
     console.log("Going in")
     files.map((file) =>  {
         var filePath = path.join(parentDir, file);
-        var cert = Certificate.fromPEM(fs.readFileSync(filePath))
+        var fd = fs.readFileSync(filePath)
+        var cert = Certificate.fromPEM(fd)
         var CN = con.escape(cert.subject.commonName)
         var ON= con.escape(cert.subject.organizationName)
         var PKAlgo = con.escape(cert.publicKey.algo)
@@ -81,6 +82,7 @@ async function processArray(files) {
             
             
         })
+        
         
         
     
