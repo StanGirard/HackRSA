@@ -48,7 +48,7 @@ The script decodes the certificates files from a folder and insert the correspon
 
 Now it is time to hack !
 
-I create a python notebook MultiplyCerts to see the basic implementation and complexity of a Batch GCD implementation.
+I created a python notebook MultiplyCerts to see the basic implementation and complexity of a Batch GCD implementation.
 
 I found out that the complexity of the basic implementation of Batch GCD is X^2
 
