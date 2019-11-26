@@ -13083,7 +13083,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[137]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
@@ -13107,7 +13107,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[147]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">timeit</span>
@@ -13129,7 +13129,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[148]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">result2</span> <span class="o">=</span> <span class="mi">1</span>
@@ -13156,7 +13156,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[140]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
@@ -13200,7 +13200,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[141]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">math</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="n">result1</span><span class="p">,</span> <span class="n">result2</span><span class="p">)</span>
@@ -13216,7 +13216,7 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[141]:</div>
+    <div class="prompt output_prompt">Out[6]:</div>
 
 
 
@@ -13240,7 +13240,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[142]:</div>
+<div class="prompt input_prompt">In&nbsp;[206]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">numbersToInt</span> <span class="o">=</span> <span class="p">[]</span>
@@ -13248,7 +13248,7 @@ div#notebook {
     <span class="n">inte</span><span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">number</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
     <span class="n">numbersToInt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inte</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">calculate_complexity</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+    
     <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">array</span><span class="p">:</span>
         <span class="nb">list</span> <span class="o">=</span> <span class="n">numbersToInt</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span>
@@ -13267,73 +13267,28 @@ div#notebook {
         <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">result1</span><span class="p">,</span> <span class="n">result2</span><span class="p">,</span> <span class="n">diff1</span><span class="p">,</span> <span class="n">diff2</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">results</span>
         
-<span class="n">resultsComplexity</span> <span class="o">=</span> <span class="n">calculate_complexity</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">1000</span><span class="p">])</span>
-        
+<span class="c1">#resultsComplexity = calculate_complexity([4,8, 16, 32, 64, 128, 256, 512, 1000])</span>
         
         
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[4, 8, 16, 32, 64, 128, 256, 512, 1000]
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[143]:</div>
+<div class="prompt input_prompt">In&nbsp;[207]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">printComplexity</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">array</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">array</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> <span class="o">-</span> <span class="mi">4</span><span class="p">:]:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Elements: </span><span class="si">{}</span><span class="s2">, Time Multiplication: </span><span class="si">{}</span><span class="s2">, GCD: </span><span class="si">{}</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">4</span><span class="p">]))</span>
-<span class="n">printComplexity</span><span class="p">(</span><span class="n">resultsComplexity</span><span class="p">)</span>
+<span class="c1">#printComplexity(resultsComplexity)</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Elements: 4, Time Multiplication: 0.00015913500010356074, GCD: 0.00013404499986791052 
-Elements: 8, Time Multiplication: 0.00033784399965952616, GCD: 0.00031350599965662695 
-Elements: 16, Time Multiplication: 0.000910523000129615, GCD: 0.0009955420000551385 
-Elements: 32, Time Multiplication: 0.0030260419998739962, GCD: 0.0032278979997499846 
-Elements: 64, Time Multiplication: 0.011085190999438055, GCD: 0.010909695000009378 
-Elements: 128, Time Multiplication: 0.04433604499990906, GCD: 0.049944256999879144 
-Elements: 256, Time Multiplication: 0.2419189580004968, GCD: 0.3394649649999337 
-Elements: 512, Time Multiplication: 1.1952520469994852, GCD: 1.459997843000565 
-Elements: 1000, Time Multiplication: 4.4417237260004185, GCD: 5.4985577190000186 
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -13347,6 +13302,242 @@ Elements: 1000, Time Multiplication: 4.4417237260004185, GCD: 5.4985577190000186
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Optimized-GCD-Calculation-from-facthacks">Optimized GCD Calculation from facthacks<a class="anchor-link" href="#Optimized-GCD-Calculation-from-facthacks">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[218]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">producttree</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">X</span><span class="p">]</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="p">):</span><span class="nb">int</span><span class="p">((</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">)])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">))]</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="k">def</span> <span class="nf">batchgcd_faster</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="n">prods</span> <span class="o">=</span> <span class="n">producttree</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">prods</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+    <span class="k">while</span> <span class="n">prods</span><span class="p">:</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">prods</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        
+        <span class="n">R</span> <span class="o">=</span> <span class="p">[</span><span class="n">R</span><span class="p">[</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="mi">2</span><span class="p">)]</span> <span class="o">%</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">))]</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">math</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="n">r</span><span class="o">//</span><span class="n">n</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span><span class="p">,</span><span class="n">n</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">X</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[225]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">calculate_complexity_product_tree</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">array</span><span class="p">:</span>
+        <span class="n">lists</span> <span class="o">=</span> <span class="n">numbersToInt</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span>
+        
+        <span class="n">list1</span> <span class="o">=</span> <span class="n">lists</span><span class="p">[:</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="mi">2</span><span class="p">)]</span>
+        <span class="n">list2</span> <span class="o">=</span> <span class="n">lists</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="mi">2</span><span class="p">):]</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">default_timer</span><span class="p">()</span>
+        <span class="n">result1</span> <span class="o">=</span> <span class="n">producttree</span><span class="p">(</span><span class="n">list1</span><span class="p">)</span>
+        <span class="n">result2</span> <span class="o">=</span> <span class="n">producttree</span><span class="p">(</span><span class="n">list2</span><span class="p">)</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">default_timer</span><span class="p">()</span>
+        <span class="n">diff1</span> <span class="o">=</span> <span class="n">stop</span> <span class="o">-</span> <span class="n">start</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">default_timer</span><span class="p">()</span>
+        <span class="n">firstNumber</span> <span class="o">=</span> <span class="n">result1</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">secondNumber</span> <span class="o">=</span> <span class="n">result2</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">result3</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="n">firstNumber</span><span class="p">,</span> <span class="n">secondNumber</span><span class="p">)</span>
+        
+        <span class="n">stop</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">default_timer</span><span class="p">()</span>
+        <span class="n">diff2</span> <span class="o">=</span> <span class="n">stop</span> <span class="o">-</span> <span class="n">start</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">diff1</span><span class="p">,</span> <span class="n">diff2</span><span class="p">])</span>
+    
+    <span class="k">return</span> <span class="n">results</span>
+<span class="c1">#productTreeResults = calculate_complexity_product_tree([4,8, 16, 32, 64, 128, 256, 512, 1000])</span>
+<span class="c1">#printComplexity(productTreeResults)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[220]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">numbersToInt2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">12000</span><span class="p">,</span><span class="mi">12</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">calculate_complexity_batch_gcd</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">array</span><span class="p">:</span>
+        <span class="n">list1</span> <span class="o">=</span> <span class="n">numbersToInt</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">default_timer</span><span class="p">()</span>
+        <span class="n">result1</span> <span class="o">=</span> <span class="n">batchgcd_faster</span><span class="p">(</span><span class="n">list1</span><span class="p">)</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">default_timer</span><span class="p">()</span>
+        <span class="n">diff1</span> <span class="o">=</span> <span class="n">stop</span> <span class="o">-</span> <span class="n">start</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">diff1</span><span class="p">,</span><span class="nb">len</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">result1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">])])</span>
+    <span class="k">return</span> <span class="n">results</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[221]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#result22 = calculate_complexity_batch_gcd([2,4,8,16,32,64,128,256,512])</span>
+<span class="k">def</span> <span class="nf">printComplexityBatch</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">array</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> <span class="o">-</span> <span class="mi">4</span><span class="p">:]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Elements: </span><span class="si">{}</span><span class="s2">, Time : </span><span class="si">{}</span><span class="s2">, Not Prime: </span><span class="si">{}</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+<span class="c1">#printComplexityBatch(calculate_complexity_batch_gcd([2,4,8,16,32,64,128,256,512]))</span>
+<span class="c1">#print(result22)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Not-optimized-normal-GCD-between-all">Not optimized normal GCD between all<a class="anchor-link" href="#Not-optimized-normal-GCD-between-all">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[222]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">gcd_not_optimal</span><span class="p">(</span><span class="n">number1</span><span class="p">,</span> <span class="n">number2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="n">number1</span><span class="p">,</span> <span class="n">number2</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">iterateArrayGcd</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+    <span class="n">results</span> <span class="o">=</span><span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span> <span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">)):</span>
+            <span class="n">resultGCD</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">array</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">resultGCD</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">resultGCD</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">results</span><span class="p">):</span> <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resultGCD</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">results</span>
+
+<span class="k">def</span> <span class="nf">calculate_complexity_normal_gcd</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">array</span><span class="p">:</span>
+        <span class="n">list1</span> <span class="o">=</span> <span class="n">numbersToInt</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">default_timer</span><span class="p">()</span>
+        <span class="n">result1</span> <span class="o">=</span> <span class="n">iterateArrayGcd</span><span class="p">(</span><span class="n">list1</span><span class="p">)</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">default_timer</span><span class="p">()</span>
+        <span class="n">diff1</span> <span class="o">=</span> <span class="n">stop</span> <span class="o">-</span> <span class="n">start</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">diff1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">result1</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="n">results</span>
+<span class="k">def</span> <span class="nf">printComplexityNormalGCD</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">array</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> <span class="o">-</span> <span class="mi">4</span><span class="p">:]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Elements: </span><span class="si">{}</span><span class="s2">, Time : </span><span class="si">{}</span><span class="s2">, Not Prime: </span><span class="si">{}</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Comparison-Performance-of-different-implementation">Comparison Performance of different implementation<a class="anchor-link" href="#Comparison-Performance-of-different-implementation">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[228]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">arrayTest</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[229]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Individual GCD - Témoin&quot;</span><span class="p">)</span>
+<span class="n">printComplexityNormalGCD</span><span class="p">(</span><span class="n">calculate_complexity_normal_gcd</span><span class="p">(</span><span class="n">arrayTest</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Multiply All together and then GCD&quot;</span><span class="p">)</span>
+<span class="n">printComplexity</span><span class="p">(</span><span class="n">calculate_complexity</span><span class="p">(</span><span class="n">arrayTest</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Optimized GCD from facthacks&quot;</span><span class="p">)</span>
+<span class="n">printComplexityBatch</span><span class="p">(</span><span class="n">calculate_complexity_batch_gcd</span><span class="p">(</span><span class="n">arrayTest</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Custom Implementation Pair &quot;</span><span class="p">)</span>
+<span class="n">printComplexityBatch</span><span class="p">(</span><span class="n">calculate_complexity_product_tree</span><span class="p">(</span><span class="n">arrayTest</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Individual GCD - Témoin
+Elements: 128, Time : 0.2859869730000355, Not Prime: 0 
+Elements: 256, Time : 1.527917764000449, Not Prime: 0 
+Elements: 512, Time : 7.337907044999156, Not Prime: 0 
+Elements: 1000, Time : 29.85705569499987, Not Prime: 0 
+
+ Multiply All together and then GCD
+Elements: 128, Time Multiplication: 0.032896656999582774, GCD: 0.03999050799939141 
+Elements: 256, Time Multiplication: 0.19726308999997855, GCD: 0.23899907999839343 
+Elements: 512, Time Multiplication: 0.9064733429986518, GCD: 1.117600997999034 
+Elements: 1000, Time Multiplication: 3.728594369000348, GCD: 4.56360691000009 
+
+ Optimized GCD from facthacks
+Elements: 128, Time : 0.4237891409993608, Not Prime: 0 
+Elements: 256, Time : 2.483386656998846, Not Prime: 0 
+Elements: 512, Time : 11.630187565999222, Not Prime: 0 
+Elements: 1000, Time : 46.84300744400025, Not Prime: 0 
+
+ Custom Implementation Pair 
+Elements: 128, Time : 0.01447500299946114, Not Prime: 2.814599974954035e-05 
+Elements: 256, Time : 0.06136822400003439, Not Prime: 3.805800042755436e-05 
+Elements: 512, Time : 0.2034562429998914, Not Prime: 4.084000102011487e-05 
+Elements: 1000, Time : 0.645640741000534, Not Prime: 4.044500019517727e-05 
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
