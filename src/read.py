@@ -1,5 +1,5 @@
 import os
-path = '/root/SSLCert/cert/'
+path = '/root/cert/'
 #path = '/Users/stanislasgirard/Documents/Dev/GetCertificates/certexample/'
 import mysql.connector
 from cryptography import x509
@@ -16,6 +16,7 @@ try:
                               host='localhost',
                               database='Certificates')
     cursor = cnx.cursor()
+    print("Db connection")
     for filename in os.listdir(path):
         with open(path + filename, 'rb') as content_file:
           try: 
