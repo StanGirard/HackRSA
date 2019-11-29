@@ -1,6 +1,6 @@
 import os
-#path = '/root/SSLCert/cert/'
-path = '/Users/stanislasgirard/Documents/Dev/GetCertificates/certexample/'
+path = '/root/cert/'
+#path = '/Users/stanislasgirard/Documents/Dev/GetCertificates/certexample/'
 import mysql.connector
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
@@ -13,7 +13,7 @@ number = 0
 
 try:
     cnx = mysql.connector.connect(user='admin', password='Stanley78!', auth_plugin='mysql_native_password',
-                              host='89.234.183.203',
+                              host='localhost',
                               database='Certificates')
     cursor = cnx.cursor()
     for filename in os.listdir(path):
