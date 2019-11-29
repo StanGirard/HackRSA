@@ -1,6 +1,6 @@
 import os
-path = '/root/cert/'
-#path = '/Users/stanislasgirard/Documents/Dev/GetCertificates/certexample/'
+#path = '/root/cert/'
+path = '/Users/stanislasgirard/Documents/Dev/GetCertificates/certexample/'
 import mysql.connector
 from functools import partial
 from cryptography import x509
@@ -27,7 +27,7 @@ dbconfig = {
 def init():
     global pool
     print("PID %d: initializing pool..." % os.getpid())
-    pool = MySQLConnectionPool(pool_name = "mypool", pool_size = 20, **dbconfig)
+    pool = MySQLConnectionPool(pool_name = "mypool", pool_size = 4, **dbconfig)
 
 
 def run_files(filename):
@@ -67,10 +67,14 @@ def run_files(filename):
       result = c.execute(sql, (filename, issuer, subjectCN, str(publicKeye), str(publicKeyn), str(keySize)))
       global number
       number += 1
-      con.close()
+     
       
       if number % 100 == 0:
         print(number)
+      
+      con.commit()
+      con.close()
+      return result
     except mysql.connector.Error as err:
       print(err)
     except:
@@ -81,24 +85,17 @@ def run_files(filename):
   
 
 if __name__ == '__main__':
+  files = os.listdir(path)
+  print("Done")
   set_start_method('spawn')
   freeze_support()
   number = 0
   p = Pool(initializer=init)
-  print("Db connection")
-  try:
-      
-      files = os.listdir(path)
-      p.map(run_files,  files)
-      p.close()
-      p.join()  
-  except mysql.connector.Error as err:
-    if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-      print("Something is wrong with your user name or password")
-    elif err.errno == errorcode.ER_BAD_DB_ERROR:
-      print("Database does not exist")
-    else:
-      print(err)
+  print("Db connection")  
+  p.map(run_files, files)
+  p.close()
+  p.join()  
+  
   
 
 
