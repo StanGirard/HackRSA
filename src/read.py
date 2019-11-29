@@ -1,6 +1,6 @@
 import os
-#path = '/root/cert/'
-path = '/Users/stanislasgirard/Documents/Dev/GetCertificates/certexample/'
+path = '/root/cert/'
+#path = '/Users/stanislasgirard/Documents/Dev/GetCertificates/certexample/'
 import mysql.connector
 from functools import partial
 from cryptography import x509
@@ -27,7 +27,7 @@ dbconfig = {
 def init():
     global pool
     print("PID %d: initializing pool..." % os.getpid())
-    pool = MySQLConnectionPool(pool_name = "mypool", pool_size = 4, **dbconfig)
+    pool = MySQLConnectionPool(pool_name = "mypool", pool_size = 1, **dbconfig)
 
 
 def run_files(filename):
@@ -59,21 +59,21 @@ def run_files(filename):
           publicKey = cert.public_key().public_numbers()
           publicKeye = publicKey.e
           publicKeyn = publicKey.n
-
-
+      global number
+      number += 1
+      if number % 100 == 0:
+        print(number)
       sql = "INSERT INTO Certificates.certificates (filename, issuerON, subjectCN, pubkeye, pubkeyn, keysize)  VALUES (%s, %s, %s, %s, %s, %s);" 
       con = pool.get_connection()
       c = con.cursor()
       result = c.execute(sql, (filename, issuer, subjectCN, str(publicKeye), str(publicKeyn), str(keySize)))
-      global number
-      number += 1
-     
-      
-      if number % 100 == 0:
-        print(number)
-      
       con.commit()
       con.close()
+     
+      
+      
+      
+      
       return result
     except mysql.connector.Error as err:
       print(err)
