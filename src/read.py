@@ -10,13 +10,13 @@ from cryptography.hazmat.primitives.asymmetric import rsa
 
 from mysql.connector import errorcode
 number = 0
+
 try:
-    cnx = mysql.connector.connect(user='admin', password='Stanley78!',
+    cnx = mysql.connector.connect(user='admin', password='Stanley78!', auth_plugin='mysql_native_password',
                               host='localhost',
                               database='Certificates')
     cursor = cnx.cursor()
     for filename in os.listdir(path):
-        
         with open(path + filename, 'rb') as content_file:
           try: 
             content = content_file.read()
@@ -47,10 +47,9 @@ try:
                 publicKeyn = publicKey.n
 
 
-            sql = "INSERT INTO Certificates.certs (filename, issuerON, subjectCN, pubkeye, pubkeyn, keysize)  VALUES (%s, %s, %s, %s, %s, %s);" 
+            sql = "INSERT INTO Certificates.certificates (filename, issuerON, subjectCN, pubkeye, pubkeyn, keysize)  VALUES (%s, %s, %s, %s, %s, %s);" 
             
             result = cursor.execute(sql, (filename, issuer, subjectCN, str(publicKeye), str(publicKeyn), str(keySize)))
-            cnx.commit()
             number += 1
             if number % 100 == 0:
               print(number)
@@ -58,6 +57,7 @@ try:
             print(err)
           except:
             print("Error") 
+        cnx.commit()
             
             
             
