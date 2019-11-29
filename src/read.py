@@ -1,6 +1,6 @@
 import os
-#path = '/root/cert/'
-path = '/Users/stanislasgirard/Documents/Dev/GetCertificates/certexample/'
+path = '/root/cert/'
+#path = '/Users/stanislasgirard/Documents/Dev/GetCertificates/certexample/'
 import mysql.connector
 from functools import partial
 from cryptography import x509
@@ -20,7 +20,7 @@ dbconfig = {
   'user':'admin',
   'password':'Stanley78!',
   'auth_plugin':'mysql_native_password',
-  'host':'89.234.183.203',
+  'host':'localhost',
   'database':'Certificates'
 }
 
