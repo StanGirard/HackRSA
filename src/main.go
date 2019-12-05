@@ -30,7 +30,7 @@ func storeCertificate(cert *x509.Certificate, writer *csv.Writer, domain string)
 				data = append(data, strconv.Itoa(rsaPublicKey.E))
 				data = append(data, strconv.Itoa(rsaPublicKey.Size()))
 				writer.Write(data)
-				writer.Flush()
+
 			}
 		}
 	}
@@ -72,11 +72,12 @@ func main() {
 	checkError("Cannot create file", err)
 	defer file.Close()
 	writer := csv.NewWriter(file)
-	defer writer.Flush()
-	for i := 0; i < 80; i++ {
+
+	for i := 0; i < 200; i++ {
 		go analyzeDomains(cs, writer)
 
 	}
+	writer.Flush()
 
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
