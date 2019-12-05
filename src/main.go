@@ -12,8 +12,35 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 )
+
+type CsvWriter struct {
+	mutex     *sync.Mutex
+	csvWriter *csv.Writer
+}
+
+func NewCsvWriter(fileName string) (*CsvWriter, error) {
+	csvFile, err := os.Create(fileName)
+	if err != nil {
+		return nil, err
+	}
+	w := csv.NewWriter(csvFile)
+	return &CsvWriter{csvWriter: w, mutex: &sync.Mutex{}}, nil
+}
+
+func (w *CsvWriter) Write(row []string) {
+	w.mutex.Lock()
+	w.csvWriter.Write(row)
+	w.mutex.Unlock()
+}
+
+func (w *CsvWriter) Flush() {
+	w.mutex.Lock()
+	w.csvWriter.Flush()
+	w.mutex.Unlock()
+}
 
 func storeCertificate(cert *x509.Certificate, writer *csv.Writer, domain string) {
 
@@ -29,6 +56,7 @@ func storeCertificate(cert *x509.Certificate, writer *csv.Writer, domain string)
 				data = append(data, rsaPublicKey.N.String())
 				data = append(data, strconv.Itoa(rsaPublicKey.E))
 				data = append(data, strconv.Itoa(rsaPublicKey.Size()))
+				fmt.Println("Done: ", domain)
 				err := writer.Write(data)
 				if err != nil {
 					log.Fatal(err)
