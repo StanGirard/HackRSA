@@ -46,23 +46,24 @@ func storeCertificate(cert *x509.Certificate, writer *csv.Writer, domain string)
 
 	if v := cert.PublicKeyAlgorithm.String(); v == "RSA" {
 		if len(cert.Issuer.Organization) != 0 {
-			if w := cert.Issuer.Organization[0]; w != "Digital Signature Trust Co." {
 
-				var data []string
-				// Get Issuer Organization
-				data = append(data, domain[:len(domain)-4])
-				data = append(data, cert.Issuer.Organization[0])
-				rsaPublicKey := cert.PublicKey.(*rsa.PublicKey)
-				data = append(data, rsaPublicKey.N.String())
-				data = append(data, strconv.Itoa(rsaPublicKey.E))
-				data = append(data, strconv.Itoa(rsaPublicKey.Size()))
-				fmt.Println("Done: ", domain)
-				err := writer.Write(data)
-				if err != nil {
-					log.Fatal(err)
-				}
-
+			var data []string
+			// Get Issuer Organization
+			data = append(data, domain[:len(domain)-4])
+			data = append(data, cert.Issuer.Organization[0])
+			rsaPublicKey := cert.PublicKey.(*rsa.PublicKey)
+			data = append(data, rsaPublicKey.N.String())
+			data = append(data, strconv.Itoa(rsaPublicKey.E))
+			data = append(data, strconv.Itoa(rsaPublicKey.Size()))
+			fmt.Println("Done: ", domain)
+			if 6 <= len(data) {
+				data = data[:5]
 			}
+			err := writer.Write(data)
+			if err != nil {
+				log.Fatal(err)
+			}
+
 		}
 	}
 
@@ -89,6 +90,7 @@ func analyzeDomains(queue chan string, writer *csv.Writer) {
 	for {
 		domain := <-queue
 		analyzeDomain(domain, writer)
+
 	}
 }
 
