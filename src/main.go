@@ -18,21 +18,22 @@ import (
 func storeCertificate(cert *x509.Certificate, writer *csv.Writer, domain string) {
 
 	if v := cert.PublicKeyAlgorithm.String(); v == "RSA" {
-		if w := cert.Issuer.Organization[0]; w != "Digital Signature Trust Co." {
-			var data []string
-			// Get Issuer Organization
-			data = append(data, domain[:len(domain)-4])
-			data = append(data, cert.Issuer.Organization[0])
-			rsaPublicKey := cert.PublicKey.(*rsa.PublicKey)
-			data = append(data, rsaPublicKey.N.String())
-			data = append(data, strconv.Itoa(rsaPublicKey.E))
-			data = append(data, strconv.Itoa(rsaPublicKey.Size()))
-			writer.Write(data)
-			writer.Flush()
+		if len(cert.Issuer.Organization) != 0 {
+			if w := cert.Issuer.Organization[0]; w != "Digital Signature Trust Co." {
+
+				var data []string
+				// Get Issuer Organization
+				data = append(data, domain[:len(domain)-4])
+				data = append(data, cert.Issuer.Organization[0])
+				rsaPublicKey := cert.PublicKey.(*rsa.PublicKey)
+				data = append(data, rsaPublicKey.N.String())
+				data = append(data, strconv.Itoa(rsaPublicKey.E))
+				data = append(data, strconv.Itoa(rsaPublicKey.Size()))
+				writer.Write(data)
+			}
 		}
 	}
 
-	//}
 }
 
 func analyzeDomain(domain string, writer *csv.Writer) {
@@ -73,6 +74,7 @@ func main() {
 	defer writer.Flush()
 	for i := 0; i < 80; i++ {
 		go analyzeDomains(cs, writer)
+		writer.Flush()
 	}
 
 	scanner := bufio.NewScanner(os.Stdin)
