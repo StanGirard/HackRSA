@@ -29,7 +29,10 @@ func storeCertificate(cert *x509.Certificate, writer *csv.Writer, domain string)
 				data = append(data, rsaPublicKey.N.String())
 				data = append(data, strconv.Itoa(rsaPublicKey.E))
 				data = append(data, strconv.Itoa(rsaPublicKey.Size()))
-				writer.Write(data)
+				err := writer.Write(data)
+				if err != nil {
+					log.Fatal(err)
+				}
 
 			}
 		}
