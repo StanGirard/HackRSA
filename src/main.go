@@ -52,16 +52,19 @@ func storeCertificate(cert *x509.Certificate, writer *csv.Writer, domain string)
 			data = append(data, domain[:len(domain)-4])
 			data = append(data, cert.Issuer.Organization[0])
 			rsaPublicKey := cert.PublicKey.(*rsa.PublicKey)
-			data = append(data, rsaPublicKey.N.String())
-			data = append(data, strconv.Itoa(rsaPublicKey.E))
-			data = append(data, strconv.Itoa(rsaPublicKey.Size()))
-			fmt.Println("Done: ", domain)
-			if 6 <= len(data) {
-				data = data[:5]
-			}
-			err := writer.Write(data)
-			if err != nil {
-				log.Fatal(err)
+			if rsaPublicKey != nil {
+				data = append(data, rsaPublicKey.N.String())
+				data = append(data, strconv.Itoa(rsaPublicKey.E))
+				data = append(data, strconv.Itoa(rsaPublicKey.Size()))
+				fmt.Println("Done: ", domain)
+				if 6 <= len(data) {
+					data = data[:5]
+				}
+				err := writer.Write(data)
+				if err != nil {
+					log.Fatal(err)
+				}
+
 			}
 
 		}
@@ -70,7 +73,7 @@ func storeCertificate(cert *x509.Certificate, writer *csv.Writer, domain string)
 }
 
 func analyzeDomain(domain string, writer *csv.Writer) {
-	fmt.Println("analyzing", domain)
+	//fmt.Println("analyzing", domain)
 	dialer := net.Dialer{}
 	dialer.Timeout = 10 * time.Second
 	conn, err := tls.DialWithDialer(&dialer, "tcp", domain, &tls.Config{
