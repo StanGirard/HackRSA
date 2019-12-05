@@ -104,7 +104,7 @@ func main() {
 	defer file.Close()
 	writer := csv.NewWriter(file)
 
-	for i := 0; i < 200; i++ {
+	for i := 0; i < 80; i++ {
 		go analyzeDomains(cs, writer)
 
 	}
