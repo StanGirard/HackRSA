@@ -103,7 +103,7 @@ func writeToCSV(writy <-chan []string, writer *csv.Writer) {
 		data := <-writy
 		fmt.Println("Writing")
 		writer.Write(data)
-		writer.Flush()
+
 	}
 
 }
@@ -124,8 +124,9 @@ func main() {
 		go analyzeDomains(cs, writy)
 
 	}
-	go writeToCSV(writy, writer)
-
+	for i := 0; i < 40; i++ {
+		go writeToCSV(writy, writer)
+	}
 	writer.Flush()
 
 	scanner := bufio.NewScanner(os.Stdin)
