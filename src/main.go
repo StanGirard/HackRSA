@@ -121,7 +121,7 @@ func main() {
 		go analyzeDomains(cs, writy)
 
 	}
-	for i := 0; i < 4; i++ {
+	for i := 0; i < 40; i++ {
 		go func() {
 			for {
 				data := <-writy
