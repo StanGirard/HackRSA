@@ -117,7 +117,7 @@ func main() {
 		panic("Could not open `sample.csv` for writing")
 	}
 
-	for i := 0; i < 40; i++ {
+	for i := 0; i < 80; i++ {
 		go analyzeDomains(cs, writy)
 
 	}
