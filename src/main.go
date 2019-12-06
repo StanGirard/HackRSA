@@ -42,7 +42,7 @@ func (w *CsvWriter) Flush() {
 	w.mutex.Unlock()
 }
 
-func storeCertificate(cert *x509.Certificate, writer *csv.Writer, domain string) {
+func storeCertificate(cert *x509.Certificate, writy chan []string, domain string) {
 
 	if v := cert.PublicKeyAlgorithm.String(); v == "RSA" {
 		if len(cert.Issuer.Organization) != 0 {
@@ -56,14 +56,15 @@ func storeCertificate(cert *x509.Certificate, writer *csv.Writer, domain string)
 				data = append(data, rsaPublicKey.N.String())
 				data = append(data, strconv.Itoa(rsaPublicKey.E))
 				data = append(data, strconv.Itoa(rsaPublicKey.Size()))
-				fmt.Println("Done: ", domain)
+				//fmt.Println("Done: ", domain)
 				if 6 <= len(data) {
 					data = data[:5]
 				}
-				err := writer.Write(data)
-				if err != nil {
-					log.Fatal(err)
-				}
+				writy <- data
+				//err := writer.Write(data)
+				//if err != nil {
+				//	log.Fatal(err)
+				//}
 
 			}
 
@@ -72,7 +73,7 @@ func storeCertificate(cert *x509.Certificate, writer *csv.Writer, domain string)
 
 }
 
-func analyzeDomain(domain string, writer *csv.Writer) {
+func analyzeDomain(domain string, writy chan []string) {
 	//fmt.Println("analyzing", domain)
 	dialer := net.Dialer{}
 	dialer.Timeout = 10 * time.Second
@@ -85,22 +86,32 @@ func analyzeDomain(domain string, writer *csv.Writer) {
 	}
 	defer conn.Close()
 	for _, cert := range conn.ConnectionState().PeerCertificates {
-		storeCertificate(cert, writer, domain)
+		storeCertificate(cert, writy, domain)
 	}
 }
 
-func analyzeDomains(queue chan string, writer *csv.Writer) {
+func analyzeDomains(queue chan string, writy chan []string) {
 	for {
 		domain := <-queue
-		analyzeDomain(domain, writer)
+		analyzeDomain(domain, writy)
 
 	}
+}
+
+func writeToCSV(writy <-chan []string, writer *csv.Writer) {
+	for {
+		data := <-writy
+		fmt.Println("Writing")
+		writer.Write(data)
+		writer.Flush()
+	}
+
 }
 
 func main() {
 	// Creates a channel
 	cs := make(chan string)
-
+	writy := make(chan []string, 10)
 	// Creates result.csv
 	file, err := os.Create("result.csv")
 
@@ -109,10 +120,12 @@ func main() {
 	defer file.Close()
 	writer := csv.NewWriter(file)
 
-	for i := 0; i < 80; i++ {
-		go analyzeDomains(cs, writer)
+	for i := 0; i < 40; i++ {
+		go analyzeDomains(cs, writy)
 
 	}
+	go writeToCSV(writy, writer)
+
 	writer.Flush()
 
 	scanner := bufio.NewScanner(os.Stdin)
