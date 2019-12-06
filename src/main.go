@@ -14,6 +14,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	ccsv "github.com/tsak/concurrent-csv-writer"
 )
 
 type CsvWriter struct {
@@ -98,13 +100,7 @@ func analyzeDomains(queue chan string, writy chan []string) {
 	}
 }
 
-func writeToCSV(writy <-chan []string, writer *csv.Writer) {
-	for {
-		data := <-writy
-		fmt.Println("Writing")
-		writer.Write(data)
-
-	}
+func writeToCSV(writy <-chan []string, writer *CsvWriter) {
 
 }
 
@@ -113,21 +109,28 @@ func main() {
 	cs := make(chan string)
 	writy := make(chan []string, 10)
 	// Creates result.csv
-	file, err := os.Create("result.csv")
 
 	//Verifies that the file has been created
-	checkError("Cannot create file", err)
-	defer file.Close()
-	writer := csv.NewWriter(file)
+
+	csv, err := ccsv.NewCsvWriter("results.csv")
+	if err != nil {
+		panic("Could not open `sample.csv` for writing")
+	}
 
 	for i := 0; i < 40; i++ {
 		go analyzeDomains(cs, writy)
 
 	}
-	for i := 0; i < 40; i++ {
-		go writeToCSV(writy, writer)
+	for i := 0; i < 4; i++ {
+		go func() {
+			for {
+				data := <-writy
+				fmt.Println("Writing")
+				csv.Write(data)
+			}
+
+		}()
 	}
-	writer.Flush()
 
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
