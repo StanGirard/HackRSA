@@ -1,6 +1,6 @@
 # SSLCertificates
 
-The first step is to gather millions of SSL certificates. I found two solutions, you either download it from a website or you
+The first step is to gather millions of SSL certificates. I found two solutions that i can share, you either download it from a website or you
 
 Download [Top10MillionWebsites](https://www.domcop.com/files/top/top10milliondomains.csv.zip) or Crawl the data from [CommonCrawl](https://commoncrawl.org/the-data/get-started/) which is 60TB of Crawled Websites. With a powerfull enough computer you could parse websites name and get millions of websites.
 
@@ -28,6 +28,9 @@ cat domainnames | go run main.go
 ```
 
 You need to have one domain per line
+#### V2 of main.go
+
+> The V2 of main.go allows you to skip the next steps.
 
 ## Process the certificates
 
@@ -53,6 +56,13 @@ I created a python notebook MultiplyCerts to see the basic implementation and co
 I found out that the complexity of the basic implementation of Batch GCD is X^2
 
 You can find the results in MultiplyCerts.htlm
+
+### Batch GCD Implementation
+
+> Working on a C++ implementation with GMP for arbitrary long number.
+For 20M certificates with end up with numbers that have 4*10^10 digits.
+
+If you want to know more, please send me an email to girard.stanislas@gmail.com
 
 
 
